@@ -2,7 +2,7 @@
 
 ## Disclaimer
 ---
-This is a project I do for fun, ** SO USE IT AT YOUR OWN RISK **. There are no support, no warranty ;) and I can not be held responsible for system failure, loss of files or other system damages. 
+This is a project I do for fun, **SO USE IT AT YOUR OWN RISK**. There are no support, no warranty ;) and I can not be held responsible for system failure, loss of files or other system damages. 
 
 All rights reserved to those who have created the tools my script uses. 
 
