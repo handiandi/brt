@@ -28,13 +28,6 @@ also renaming files in subdirectories
 .BI "-d " "integer"
 defining how many digits there should be in the name for each integer. Default: 3
 
-." .SH BUGS
-." .B Renaming in subdirectories
-." .PP
-." When 
-." .B -r 
-." flag is used, only subdirectories 1 level down is used. 
-
 .SH AUTHOR
-Anders Lønberg Rahbek, handiiandii@gmail.com
+Anders Lønberg Rahbek, brt_script@andersrahbek.dk
 
