@@ -11,6 +11,7 @@ All rights reserved to those who have created the tools my script uses.
 **brt** is a small bash script to rename multiple files in one or more folders which have sequential numbers in their names. The goal is, the files can be sorted in the right way easily. 
 
 You can for sure solve the same problem by using complex Linux tools like awk, but this script has two purposes:
+
 1. To solve the problem in an easier way
 2. For the author to practice Bash scripting and other skills :) 
 
