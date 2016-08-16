@@ -1,0 +1,40 @@
+." MAN PAGE FOR batch_rename COMMAND
+
+.TH brt 8 "7 August 2016" "version 0.9"
+
+.SH NAME
+brt - 
+.BR "B" "atch " "R" "ename " "T" "ool"
+
+.SH SYNOPSIS
+.B brt
+.I directory
+.B [-r] [-d 
+.I integer
+.B ]
+." .BI "This " "is " "the " "foo " "text " "editor."  
+
+.SH DESCRIPTION
+.B brt
+is a small script to rename multiple files in one or more folders. These files would already have one or more numbers in there names, but in such way you can not sort them right. This script fix this, by altering the numbers in the names with leading zeros. 
+.PP
+For example "file_name20" turns into "file_name020" with default settings. 
+
+.SH OPTIONS
+.TP
+.B -r
+also renaming files in subdirectories
+.TP
+.BI "-d " "integer"
+defining how many digits there should be in the name for each integer. Default: 3
+
+." .SH BUGS
+." .B Renaming in subdirectories
+." .PP
+." When 
+." .B -r 
+." flag is used, only subdirectories 1 level down is used. 
+
+.SH AUTHOR
+Anders Lønberg Rahbek, handiiandii@gmail.com
+
