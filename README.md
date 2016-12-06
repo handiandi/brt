@@ -33,13 +33,18 @@ OS'es does not sort it this way. It sorts like this: ...1.txt, ...10.txt, ...2.t
 + file010.txt
 + file020.txt 
 
+## Installation
+---
+1. Clone/download the files from the repository
+2. Run `sudo ./install.sh`
+3. Done! :) 
+
 
 ## Usage
 ---
-For use the script you have to download the bash file (.sh file) and run it - you can not install it with your package manager. 
+For use the script you have to download the bash file (.sh file) and install it - you can not install it with your package manager. 
 
-To run it, you must give it executable rights. Type `chmod +x brt.sh` in the terminal, when you are in the same directory as the script.
-Now you can run it by typing `./brt.sh`
+The execution command is `brt`
 
 The script takes 1 mandatory argument, which is the path for the folder in which it should rename files. It can be the full path or relative path. 
 The script also take some flags:
@@ -48,19 +53,19 @@ The script also take some flags:
 - -d [integer]: Define how many digits there should be, after renaming. Default: 3
 
 ### Examples
-`./brt directory/`
+`brt directory/`
 Here will the files in directory be renamed so they have 3 digits per integer in the filenames (1 --> 001 and 20 --> 020)
 
-`./brt directory/ -d 5`
+`brt directory/ -d 5`
 Here will the files in directory be renamed so they have 5 digits per integer in the filenames (1 --> 00001 and 20 --> 00020)
 
-`./brt directory/ -r -d 5`
+`brt directory/ -r -d 5`
 Here will the files in directory AND files in all subdirectories be renamed so they have 5 digits per integer in the filenames (1 --> 00001 and 20 --> 00020)
 
 ## Man page
 ---
-I have created a man page (the .008 file) you can use if you install it (Google for how to do this). 
-After this you can use `man brt` for reading the man page
+I have created a man page (the .7 file) you can use if you install it via install.sh. 
+Use `man brt` for reading the man page
 
 ## Contact
 ---
