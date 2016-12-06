@@ -67,28 +67,22 @@ rename_files_in_folder(){
     number_of_digits="$2" 
     #echo "$#"
     (( $# < 2 )) && number_of_digits=3
-    count=0
+    local count=0
     regex='[[:digit:]]+'
-    find "$folder" -maxdepth 1 -type f |  #for i in "${directories[@]}"
     while read fil
     do
-    
-    #for file in "$folder2"/*; do
         filename=${fil##*/}
-        targets=($(grep -oE "$regex" <<< "$filename"))
-        if [ "${#targets[@]}" -gt "0" ]; then #længden arrayet er større end 0
-            #echo "--------- NEW FILE ---------"
-            #echo "$filename"
-            #echo "--------- NEW FILE ---------"
+        targets=($(grep -oE "$regex" <<< "$filename")) #saving all numbers in the filename in an array
+        if [ "${#targets[@]}" -gt "0" ]; then #if the size of the aray is greater than 0
             newString=""
             subStrIndex=0
             strindex_index=0
-            offset_number=0 #the number occurence in string for target. To avoid take the same number in string multiple times
+            offset_number=0 #the number occurence in string for target. To avoid, take the same number in string multiple times
             old_str_index=0
             old_number="-100000"
-            for number in ${targets[@]}; do
-                size=${#number} #antal cifre
-                if [ $size -lt "$number_of_digits" ]; then #længden af tallet (antal cifre) er under 3
+            for number in ${targets[@]}; do #foreach number in filename
+                size=${#number} #number of digits in number
+                if [ $size -lt "$number_of_digits" ]; then #if the length of the number (number of digits) is lower than the wanted length
                     numberOfZeros=$((number_of_digits-size))
                     if [ "$number" = "$old_number" ]; then
                         offset_number=$((1+strindex_index))
@@ -96,7 +90,7 @@ rename_files_in_folder(){
                         offset_number=0
                     fi
                     strindex_index=$(strindex2 "$filename" "$number" $offset_number)
-                    substring=${filename:subStrIndex:$((strindex_index-subStrIndex))} #Result skal minus med subStrIndex da vi ikke nødvendigvvis starter på position 0
+                    substring=${filename:subStrIndex:$((strindex_index-subStrIndex))} #As we not always starts at position 0, we need to substract subStrIndex 
                     newString=$newString$substring
                     subStrIndex=$strindex_index
                     for i in $(seq 1 $numberOfZeros); do
@@ -109,18 +103,17 @@ rename_files_in_folder(){
             newString=$newString$substring
             if [ "$filename" != "$newString" ]; then
                 mv  "$folder2/$filename" "$(echo $folder2/$newString)"
-                count=$((1+count))
+                ((count+=1))
             fi
         fi
-    done
-
+    done < <(find "$folder2" -maxdepth 1 -type f) 
     echo "$count"
 }
 
 rflag=0
 dflag=0
 dflag_value=3
-OPTIND=2  #Gør at vi springer argument 1 over (som er folder). Ellers fanger den ikke flags efter det
+OPTIND=2  #Vi skip the first argument (folder agumenT). If wee don't, it won't catch the subsequently flags
 while getopts "rd:" opt 
 do
   case $opt in
@@ -131,8 +124,6 @@ do
     d)
       #echo "-d was triggered!" >&2
       dflag_value="$OPTARG"
-      #echo "-d value = $dflag_value"
-      dflag=1
       ;;
     ?)
       echo "Invalid option: -$OPTARG" >&2
@@ -140,35 +131,26 @@ do
   esac
 done
 
-strindex_index=$(strindex "$folder" " -")
-#if [ "$strindex_index" != -1 ]; then
-#    folder=${folder:0:strindex_index}
-#fi
-echo "$folder"
-if [ "$rflag" = 1 ]; then
-    echo "folder = $folder"
-    find "$folder" -type d |  #for i in "${directories[@]}"
+#strindex_index=$(strindex "$folder" " -")
+if [ "$rflag" = 1 ]; then 
     while read i
     do
-        #echo "subfolderr = $i"
-        number_renamed_files=$(rename_files_in_folder "$i" "$dflag_value")
-        clean_folder_name=$(readlink -m "$i")
-        #echo "clean_folder_name = $clean_folder_name"
+        clean_folder_name=$(readlink -m "$i") #folder name with full path
+        number_renamed_files=$(rename_files_in_folder "$clean_folder_name" "$dflag_value")
         index=$(strindex "$clean_folder_name" "$folder")
-        if [ "$index" -eq "-1" ]; then
-            echo "if!"
-           echo "$number_renamed_files files was renamed in folder '$folder'" 
-        else
-            clean_folder_name=${clean_folder_name:index}
-            echo "$number_renamed_files files was renamed in folder '$clean_folder_name'"
-        fi
-
-    done
-else #no flag
+        clean_folder_name=${clean_folder_name:index}
+        if [ "$number_renamed_files" -eq 0 ]; then 
+            echo "No files was renamed in folder '$clean_folder_name'"
+        elif [ "$number_renamed_files" -eq 1 ]; then 
+            echo "$number_renamed_files file was renamed in folder '$clean_folder_name'"
+        else 
+            echo "$number_renamed_files files renamed in folder '$clean_folder_name'"
+        fi        
+    done < <(find "$folder" -type d) 
+    #done < <(find "$folder" -maxdepth 1 -type f)
+else #no r-flag
     number_renamed_files=$(rename_files_in_folder "$folder" "$dflag_value")
-    echo "$folder"
-    echo "$number_renamed_files files was renamed"
+    echo "$number_renamed_files files was renamed in $folder"
 fi
 
 OPTIND=1
-
