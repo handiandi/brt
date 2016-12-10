@@ -2,7 +2,12 @@
 
 DIRECTORY="/usr/local/share/man/man7"
 
-cp brt.sh /usr/bin/
+if [[ $EUID -ne 0 ]]; then
+    echo "This script must be run as root: sudo ./install.sh" 1>&2
+    exit 1
+fi
+
+cp brt.sh /usr/bin/brt
 if [ ! -d "$DIRECTORY" ]; then
 	mkdir "$DIRECTORY"
 	echo "/usr/local/share/man/man7  is created..."
