@@ -6,13 +6,13 @@
     first_arg="$1"
     if [ ${first_arg:0:1} = "-" ]; then
         echo "No folder argument specified"
-        return
+        exit
     else 
         folder="$1"
     fi
  else
     echo "No arguments specified"
-    return
+    exit
  fi
 #echo "Bash version ${BASH_VERSION}..."
 
@@ -23,8 +23,8 @@ strindex() {
     echo "$index"
 }
 
-##Finder alle substrings i en string og returnere positionen af substringen,
-#der matcher på target og hvis position er større end offset
+## Finding all substrings in a string and returns the position of the substring, 
+# if it's matches the target and the position is greater than offset
 strindex2(){ 
    string="$1"
    target="$2"
@@ -40,8 +40,8 @@ strindex2(){
     local result=-1
     for i in "${targets[@]}"
     do
-        #De næste 4 linjer er pga. arrayet er [pos:val, pos:val,...]
-        #af en eller anden årsag :/ 
+        #The reason for the next 4 lines is that the array is [pos:val, pos:val,...]
+        #for some reasons :/ 
         col_pos=$(strindex "$i" ":")
         length="${#i}"
         pos="${i:0:col_pos}"
@@ -77,9 +77,9 @@ rename_files_in_folder(){
             newString=""
             subStrIndex=0
             strindex_index=0
-            offset_number=0 #the number occurence in string for target. To avoid, take the same number in string multiple times
+            offset_number=0 #the number occurence in string for target. To avoid, taking the same number in string multiple times
             old_str_index=0
-            old_number="-100000"
+            old_number="-100000" #just a wierd default value
             for number in ${targets[@]}; do #foreach number in filename
                 size=${#number} #number of digits in number
                 if [ $size -lt "$number_of_digits" ]; then #if the length of the number (number of digits) is lower than the wanted length
@@ -113,8 +113,9 @@ rename_files_in_folder(){
 rflag=0
 dflag=0
 dflag_value=3
-OPTIND=2  #Vi skip the first argument (folder agumenT). If wee don't, it won't catch the subsequently flags
-while getopts "rd:" opt 
+OPTIND=2    #We skip the first argument (folder agumenT). If wee don't, it won't catch the subsequently flags
+OPTERR=0    #Disable the builtin error mesage generator
+while getopts ":r:d:" opt 
 do
   case $opt in
     r)
@@ -125,9 +126,14 @@ do
       #echo "-d was triggered!" >&2
       dflag_value="$OPTARG"
       ;;
-    ?)
-      echo "Invalid option: -$OPTARG" >&2
+    \?)
+      echo "Invalid option: -$OPTARG"
+      exit 1
       ;;
+
+    :)
+      echo "option -$OPTARG requires argument."
+      exit 1
   esac
 done
 
