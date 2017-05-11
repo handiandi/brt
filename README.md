@@ -1,4 +1,4 @@
-# brt - Batch Rename Tool
+2# brt - Batch Rename Tool
 
 ## Disclaimer
 ---
@@ -39,12 +39,13 @@ OS'es does not sort it this way. It sorts like this: ...1.txt, ...10.txt, ...2.t
 2. Run `sudo ./install.sh`
 3. Done! :) 
 
+or just clone/download the files from the repository and run the script: `./brt.sh ...`
 
 ## Usage
 ---
-For use the script you have to download the bash file (.sh file) and install it - you can not install it with your package manager. 
+For use the script you have to download the bash file (.sh file) and install it - you can not install it with your package manager. Use the `install.sh` to use the script with only `brt ...` command instead of `./brt.sh ...` 
 
-The execution command is `brt`
+The execution command is `brt` (if installed by `install.sh`)
 
 The script takes 1 mandatory argument, which is the path for the folder in which it should rename files. It can be the full path or relative path. 
 The script also take some flags:
@@ -64,7 +65,7 @@ Here will the files in directory AND files in all subdirectories be renamed so t
 
 ## Man page
 ---
-I have created a man page (the .7 file) you can use if you install it via install.sh. 
+I have created a man page (the .7 file) you can use if you install it via `install.sh`. 
 Use `man brt` for reading the man page
 
 ## Contact
