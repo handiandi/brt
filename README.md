@@ -1,4 +1,4 @@
-2# brt - Batch Rename Tool
+# brt - Batch Rename Tool
 
 ## Disclaimer
 ---
